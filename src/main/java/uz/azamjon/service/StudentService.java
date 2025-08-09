@@ -42,4 +42,13 @@ public class StudentService {
         }
         return null;
     }
+
+    public boolean isAlreadyExist(int phoneNumber) {
+        for (Student student : allStudents) {
+            if (student.getPhoneNumber() == phoneNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

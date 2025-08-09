@@ -30,15 +30,23 @@ public class StudentServlet extends HttpServlet {
 
         ObjectMapper objectMapper = new ObjectMapper();
         Student student = objectMapper.readValue(json, Student.class);
+        PrintWriter out = response.getWriter();
+        String responseMessage = "{}";
+        if (studentService.isAlreadyExist(student.getPhoneNumber())) {
+            response.setStatus(400);
+            responseMessage = "{\"message\":\"There is already an account with that number\"}";
+        } else {
+            studentService.addStudent(student);
+            response.setStatus(200);
+            responseMessage = "{\"message\":\"Student has been added successfully\"}";
+        }
 
-        studentService.addStudent(student);
         System.out.println(studentService.getAllStudents());
 
         //returns response to client
         response.setContentType("application/json");
 
-        PrintWriter out = response.getWriter();
-        out.print("{}");
+        out.print(responseMessage);
         out.flush();
     }
 
