@@ -51,4 +51,17 @@ public class StudentService {
         }
         return false;
     }
+
+    public  Student updateStudent(Student student) {
+        Student existingStudent = getStudent(student.getId());
+        if (existingStudent == null) {
+            throw new IllegalArgumentException("Student does not exist");
+        }
+
+        existingStudent.setFirstName(student.getFirstName());
+        existingStudent.setLastName(student.getLastName());
+        existingStudent.setPhoneNumber(student.getPhoneNumber());
+
+        return existingStudent;
+    }
 }

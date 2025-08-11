@@ -2,6 +2,7 @@ package uz.azamjon.controller;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import uz.azamjon.model.Student;
 import uz.azamjon.service.StudentService;
 
@@ -59,6 +60,7 @@ public class StudentServlet extends HttpServlet {
         int idToDelete = Integer.parseInt(idParam);
 
         studentService.removeStudent(idToDelete);
+        System.out.println(studentService.getAllStudents());
 
     }
 
@@ -72,12 +74,10 @@ public class StudentServlet extends HttpServlet {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String pathInfo = request.getRequestURI();
-        System.out.println(pathInfo);
         String[] pathSegments =  pathInfo.substring(1).split("/");
 
         if (pathSegments.length > 0) {
             String productId = pathSegments[pathSegments.length-1];
-            System.out.println(productId);
             if (productId.equals("students")) {
                 json = objectMapper.writeValueAsString(studentService.getAllStudents());
             } else {
@@ -90,4 +90,20 @@ public class StudentServlet extends HttpServlet {
         out.print(json);
         out.flush();
     }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        BufferedReader reader = request.getReader();
+        String line;
+        StringBuilder sb = new StringBuilder();
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+
+        String json = sb.toString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        Student student = objectMapper.readValue(json, Student.class);
+        studentService.updateStudent(student);
+    }
+
 }
