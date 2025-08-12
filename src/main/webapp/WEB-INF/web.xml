@@ -18,4 +18,18 @@
         <url-pattern>/students/*</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>myFilter</filter-name>
+        <filter-class>uz.azamjon.filter.IpBlackListFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>myFilter</filter-name>
+        <url-pattern>/students/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>myFilter</filter-name>
+        <url-pattern>/students</url-pattern>
+    </filter-mapping>
+
 </web-app>
