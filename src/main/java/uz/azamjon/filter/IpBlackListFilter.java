@@ -20,9 +20,9 @@ public class IpBlackListFilter implements Filter {
         String ipAddress = request.getRemoteAddr();
         System.out.println(ipAddress);
         if (ipBlackList.contains(ipAddress)) {
-            chain.doFilter(request, response);
-        } else  {
             ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_FORBIDDEN);
+        } else  {
+            chain.doFilter(request, response);
         }
 
     }
